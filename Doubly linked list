@@ -1,0 +1,72 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* prev;
+    Node* next;
+};
+
+void insert(Node*& head, int value) {
+    Node* newnode = (Node*)malloc(sizeof(Node));
+    if (newnode == nullptr) {
+        cout << "Memory allocation failed";
+        return;
+    }
+    newnode->data = value;
+    newnode->next = nullptr;
+    newnode->prev = nullptr;
+
+    if (head == nullptr) {
+        head = newnode;
+        cout << "Inserted " << value << " at the end";
+        return;
+    }
+
+    Node* temp = head;
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+    temp->next = newnode;
+    newnode->prev = temp;
+    cout << "Inserted " << value << " at the end";
+}
+
+void deleteNode(Node*& head) {
+    if (head == nullptr) {
+        cout << "List is empty ";
+        return;
+    }
+    Node* temp = head;
+    head = head->next;
+    if (head != nullptr) {
+        head->prev = nullptr;
+    }
+    free(temp);
+    cout << "Node deleted";
+}
+
+void display(Node* head) {
+    if (head == nullptr) {
+        cout << "List is empty";
+        return;
+    }
+    Node* temp = head;
+    cout << "List: ";
+    while (temp != nullptr) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    Node* head = nullptr;
+    insert(head, 10);
+    insert(head, 20);
+    display(head);
+    deleteNode(head);
+    display(head);
+    return 0;
+}
